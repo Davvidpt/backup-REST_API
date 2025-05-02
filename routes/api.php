@@ -11,8 +11,9 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware([TokenAuth::class])->get('master-areas',[\App\Http\Controllers\API\v1\MasterAreaController::class,'index']); 
-
-Route::get('master-areas/{id}',[\App\Http\Controllers\API\v1\MasterAreaController::class,'show']);
+Route::middleware([TokenAuth::class])->get('master-custs',[\App\Http\Controllers\API\v1\MasterCustController::class,'index']); 
+Route::get('master-area/{id}',[\App\Http\Controllers\API\v1\MasterAreaController::class,'show']);
+Route::get('master-cust/{id}',[\App\Http\Controllers\API\v1\MasterCustController::class,'show']);
 
 ##debugging
 Route::get('/cek-tabel', function () {

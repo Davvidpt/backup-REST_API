@@ -3,28 +3,28 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\MasterArea;
 use Illuminate\Http\Request;
-use Illuminate\Queue\RedisQueue;
+use App\Models\MasterCust;
 
-class MasterAreaController extends Controller
+
+class MasterCustController extends Controller
 {
     //
     public function index(){
         return response()->json([
-            MasterArea::all()
+            MasterCust::take(10)->get()
         ]);
     }
 
     public function show($id){
-        $area = MasterArea::find($id);
-        if (!$area){
+        $cust= MasterCust::find($id);
+        if (!$cust){
             return response()->json([
                 'message' => 'data tidak ada'
             ],404);
         }
         return response()->json([
-            $area
+            $cust
         ]);
 
     }

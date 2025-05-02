@@ -11,7 +11,7 @@ class AbsenTrans extends Model
     public $primaryKey = 'absentransid';
     public $fillable = [
         'absentransid',
-        'absentransentryno'
+        'absentransentryno',
         
-    ]
+    ];
 }
