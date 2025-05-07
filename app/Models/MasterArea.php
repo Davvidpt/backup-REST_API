@@ -74,3 +74,4 @@ class MasterArea extends Model
 
     ];
 }
+

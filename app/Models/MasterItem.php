@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MasterCust extends Model
+class MasterItem extends Model
 {
     //
-    protected $table = 'dbo.mastercust';
-    protected $primaryKey = 'custid';
+    public $table = "dbo.masteritem";
+    public $primaryKey = "itemid";
     public $timestamps = false;
 }

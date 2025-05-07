@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MasterCust extends Model
+class CustTrans extends Model
 {
     //
-    protected $table = 'dbo.mastercust';
-    protected $primaryKey = 'custid';
+    public $table = 'dbo.custtrans';
+    public $primaryKey = 'custtransid';
     public $timestamps = false;
+
 }
