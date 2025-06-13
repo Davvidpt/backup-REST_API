@@ -109,6 +109,18 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'sqlsrvfx' =>[
+            'driver' => 'sqlsrv',
+            'url' => env('DB_SQLSRV_URL'),
+            'host' => env('DB_SQLSRV_HOST', '1433'),
+            'database' => env('DB_SQLSRV_DATABASE', 'laravel'),
+            'username' => env('DB_SQLSRV_USERNAME', 'root'),
+            'password' => env('DB_SQLSRV_PASSWORD', ''),
+            'charset' => env('DB_SQLSRV_CHARSETFX', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ]
+
     ],
 
     /*

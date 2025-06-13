@@ -13,6 +13,10 @@ Route::get('/user', function (Request $request) {
 
 
 
+
+
+
+Route::get('absentrans',[\App\Http\Controllers\API\v1\FxDtController::class, 'AbsenTrans']);
 Route::get('masteritems',[\App\Http\Controllers\API\v1\FxDtController::class, 'MasterItem']);
 Route::get('masterrepresentatives',[\App\Http\Controllers\API\v1\FxDtController::class, 'MasterRepresentative']);
 Route::get('pelunasans',[\App\Http\Controllers\API\v1\FxDtController::class, 'PelunasanPiutang']);
@@ -21,6 +25,9 @@ Route::get('logtrans',[\App\Http\Controllers\API\v1\FxDtController::class, 'LogT
 Route::get('custtrans',[\App\Http\Controllers\API\v1\FxDtController::class, 'CustTrans']);
 Route::get('masterareas',[\App\Http\Controllers\API\v1\FxDtController::class, 'MasterArea']);
 Route::get('mastercusts',[\App\Http\Controllers\API\v1\FxDtController::class, 'MasterCust']);
+Route::get('logtranslines',[\App\Http\Controllers\API\v1\FxDtController::class, 'LogTransline']);
+Route::get('ordertrans',[\App\Http\Controllers\API\v1\FxDtController::class, 'OrderTrans']);
+
 // Route::middleware([TokenAuth::class])->get('masterareas',[\App\Http\Controllers\API\v1\MasterAreaController::class,'index']); 
 // Route::middleware([TokenAuth::class])->get('mastercusts',[\App\Http\Controllers\API\v1\MasterCustController::class,'index']); 
 // Route::get('masterarea/{id}',[\App\Http\Controllers\API\v1\MasterAreaController::class,'show']);

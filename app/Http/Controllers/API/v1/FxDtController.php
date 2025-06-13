@@ -8,9 +8,12 @@ use App\Models\MasterArea;
 use App\Models\MasterCust;
 use App\Models\CustTrans;
 use App\Models\LogTrans;
+use App\Models\LogTransline;
+use App\Models\AbsenTrans;
 use App\Models\MasterItem;
 use App\Models\MasterRepresentative;
 use App\Models\CustTransline;
+use App\Models\OrderTrans;
 use Illuminate\Support\Facades\DB;
 
 class FxDtController extends Controller
@@ -22,35 +25,64 @@ class FxDtController extends Controller
         ]);
     }
 
-    public function MasterCust()
+    public function MasterCust(Request $request)
     {
-        $data = MasterCust::paginate(50); // Ambil 50 per halaman
-    
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+
+        if($startDate && $endDate){
+            $data = MasterCust::whereBetween(\DB::raw('CAST(modifydate AS DATE)'), [$startDate, $endDate])->get();
+        }
+        else {
+            $data = MasterCust::orderBy('modifydate','desc')->take(1000)->get(); // Ambil 1000 per halaman
+        }
         return response()->json($data);
     }   
 
 
-    public function CustTrans(){
-        return response()->json([
-            CustTrans::take(1000)->get()
-        ]);        
+    public function CustTrans(Request $request){
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+        
+        if ($startDate && $endDate){
+             $data = CustTrans::whereBetween(\DB::raw('CAST(modifydate AS DATE)'), [$startDate, $endDate])->get();
+        }else{
+             $data = CustTrans::orderBy('modifydate','desc')->take(1000)->get();
+        }
+        return response()->json(
+           $data
+        );        
     }
 
 
-    public function LogTrans(){
-        return response()->json([
-            LogTrans::paginate(100)
-        ]);
+    public function LogTrans(Request $request){
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+        
+        if($startDate && $endDate){
+            $data = LogTrans::whereBetween(\DB::raw('CAST(modifydate AS DATE)'), [$startDate, $endDate])->get();    
+        }else{
+            $data = LogTrans::orderBy('modifydate','desc')->take(1000)->get();
+        }
+        return response()->json(
+            $data
+            ); 
     }
 
 
-    public function CustTransline()
+    public function CustTransline(Request $request)
     {
-     $data = CustTransline::paginate(100);
-    
-        return response()->json([
+        $startDate = $request->query("startDate");
+        $endDate = $request->query("endDate");
+        
+        if($startDate && $endDate){
+            $data = CustTransline::whereBetween(\DB::raw('CAST(modifydate AS DATE)'), [$startDate,$endDate])->get();
+        }else{
+            $data = CustTransline::orderBy('modifydate','desc')->take(1000)->get();
+        }
+        return response()->json(
              $data
-        ]);
+        );
     }
 
 
@@ -68,6 +100,32 @@ class FxDtController extends Controller
     }
 
 
+    public function AbsenTrans()
+    {
+        $data = AbsenTrans::select(
+        'absentransid',
+        'absentransentryno',
+        'entrydate',
+        'staffid',
+        'status',
+        'shift',
+        'shour',
+        'sminute',
+        'ssec',
+        'data',
+        'machinecode',
+        'rawdata3',
+        'createby',
+        'createdate',
+        'modifyby',
+        'modifydate' )
+        ->get();
+
+        return response()->json([
+        'success' => true,
+        'data' => $data
+    ]);
+}
 
     
     public function PelunasanPiutang(Request $request){
@@ -85,7 +143,7 @@ class FxDtController extends Controller
             ->leftJoin(DB::raw("(
                 SELECT ltinv.logtransentrytext, ctinv.custtransid, ot.ordertransentrytext, ctinvl.totalvalue
                 FROM JBE2307.dbo.logtrans ltinv WITH (readpast)
-                INNER JOIN JBE2307.dbo.custtrans ctinv WITH (readpast) ON ctinv.logtransentryno = ltinv.logtransentryno
+                INNER JOIN JBE2307.dbo.cu ttrans ctinv WITH (readpast) ON ctinv.logtransentryno = ltinv.logtransentryno
                 INNER JOIN JBE2307.dbo.custtransline ctinvl WITH (readpast) ON ctinvl.logtransentryno = ltinv.logtransentryno
                 INNER JOIN JBE2307.dbo.ordertrans ot ON ot.ordertransentryno = ltinv.ordertransentryno AND ot.transtypeid = 15
             ) as dinv"), 'dinv.custtransid', '=', 'pctl.custtransid')
@@ -109,12 +167,44 @@ class FxDtController extends Controller
 
         return response()->json($data);
     }
+
+
+
+
+ //filter by linemodifydate
+    public function LogTransline(Request $request){
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+        
+        if($startDate && $endDate){
+            $data = LogTransline::whereBetween(\DB::raw('CAST(linemodifydate AS DATE)'), [$startDate, $endDate])->get();
+        }else{
+            $data = LogTransline::orderBy('linemodifydate','desc')->take(1000)->get();
+        }
+        return response()->json(
+            $data
+        );
+    }
+
+
+
+//filter by entrydate
+    public function OrderTrans(Request $request){
+        $startDate = $request->query('startDate');
+        $endDate = $request->query('endDate');
+
+        if($startDate && $endDate){
+            $data = OrderTrans::whereBetween(\DB::raw('CAST(modifydate AS DATE)'), [$startDate, $endDate])->get();
+        }else{
+            $data = OrderTrans::orderBy('modifydate','desc')->take(1000)->get();
+        }
+        return response()->json(
+            $data
+        );
+    }
+
+    
+
+
+
 }
-
-
-
-
-
-
-
-
